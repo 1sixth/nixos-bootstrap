@@ -65,10 +65,7 @@ in
     "/boot" = {
       device = "/dev/sda2";
       fsType = "btrfs";
-      options = mountOptions ++ [
-        "subvol=/@boot"
-        "umask=0077"
-      ];
+      options = mountOptions ++ [ "subvol=/@boot" ];
     };
     "/nix" = {
       device = "/dev/sda2";
