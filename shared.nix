@@ -38,6 +38,11 @@
     useNetworkd = true;
   };
 
+  nix.settings = {
+    substituters = [ "https://cache.garnix.io" ];
+    trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
+  };
+
   services.openssh = {
     enable = true;
     hostKeys = [
@@ -64,5 +69,4 @@
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFo0aSRnBTZxloY4B3UBOtuRJVEKjs5qgjKerAB2sSr7AAAABHNzaDo=" # ed25519-sk Resident Key
     ];
   };
-
 }
