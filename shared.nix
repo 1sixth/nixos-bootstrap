@@ -47,6 +47,7 @@
         type = "ed25519";
       }
     ];
+    settings.PermitRootLogin = "yes";
   };
 
   systemd.network.networks.default = {
