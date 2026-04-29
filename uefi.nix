@@ -15,7 +15,7 @@ in
     devices = {
       disk.main = {
         imageSize = "2G";
-        device = "/dev/sda";
+        device = "/dev/vda";
         type = "disk";
         content = {
           type = "gpt";
