@@ -6,15 +6,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/disko";
     };
-    impermanence.url = "github:nix-community/impermanence";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    preservation.url = "github:nix-community/preservation";
   };
 
   outputs =
     {
       disko,
-      impermanence,
       nixpkgs,
+      preservation,
       self,
     }:
 
@@ -24,7 +24,7 @@
           system = "x86_64-linux";
           modules = [
             disko.nixosModules.disko
-            impermanence.nixosModules.impermanence
+            preservation.nixosModules.preservation
             ./legacy.nix
             ./shared.nix
           ];
@@ -33,7 +33,7 @@
           system = "x86_64-linux";
           modules = [
             disko.nixosModules.disko
-            impermanence.nixosModules.impermanence
+            preservation.nixosModules.preservation
             ./uefi.nix
             ./shared.nix
           ];

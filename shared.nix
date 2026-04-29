@@ -13,20 +13,6 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  environment.persistence."/persistent/impermanence" = {
-    directories = [
-      "/root"
-      "/tmp"
-      "/var/lib"
-      "/var/log/journal"
-    ];
-    files = [
-      "/etc/machine-id"
-      "/etc/ssh/ssh_host_ed25519_key"
-      "/etc/ssh/ssh_host_ed25519_key.pub"
-    ];
-  };
-
   networking = {
     firewall.enable = false;
     hostName = "bootstrap";
@@ -37,6 +23,37 @@
   nix.settings = {
     substituters = [ "https://cache.garnix.io" ];
     trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
+  };
+
+  preservation = {
+    enable = true;
+    preserveAt."/persistent/preservation" = {
+      directories = [
+        "/root"
+        "/var/cache"
+        "/var/log/journal"
+        {
+          directory = "/var/lib";
+          inInitrd = true;
+        }
+      ];
+      files = [
+        {
+          file = "/etc/machine-id";
+          how = "symlink";
+          inInitrd = true;
+        }
+        {
+          file = "/etc/ssh/ssh_host_ed25519_key";
+          inInitrd = true;
+          mode = "0600";
+        }
+        {
+          file = "/etc/ssh/ssh_host_ed25519_key.pub";
+          inInitrd = true;
+        }
+      ];
+    };
   };
 
   services.openssh = {
