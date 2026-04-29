@@ -47,15 +47,19 @@
     };
   };
 
-  services.openssh = {
-    enable = true;
-    hostKeys = [
-      {
-        path = "/persistent/ssh/ssh_host_ed25519_key";
-        type = "ed25519";
-      }
-    ];
-    settings.PermitRootLogin = "yes";
+  services = {
+    # dbus-broker somehow breaks logind session creation
+    dbus.implementation = "dbus";
+    openssh = {
+      enable = true;
+      hostKeys = [
+        {
+          path = "/persistent/ssh/ssh_host_ed25519_key";
+          type = "ed25519";
+        }
+      ];
+      settings.PermitRootLogin = "yes";
+    };
   };
 
   systemd.network.networks.default = {
