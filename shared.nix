@@ -43,15 +43,6 @@
           how = "symlink";
           inInitrd = true;
         }
-        {
-          file = "/etc/ssh/ssh_host_ed25519_key";
-          inInitrd = true;
-          mode = "0600";
-        }
-        {
-          file = "/etc/ssh/ssh_host_ed25519_key.pub";
-          inInitrd = true;
-        }
       ];
     };
   };
@@ -60,7 +51,7 @@
     enable = true;
     hostKeys = [
       {
-        path = "/etc/ssh/ssh_host_ed25519_key";
+        path = "/persistent/ssh/ssh_host_ed25519_key";
         type = "ed25519";
       }
     ];
