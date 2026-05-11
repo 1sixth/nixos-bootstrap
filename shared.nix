@@ -4,7 +4,9 @@
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
   boot = {
-    initrd.systemd.enable = true;
+    # https://github.com/nix-community/preservation/pull/23
+    initrd.systemd.tmpfiles.settings.preservation."/sysroot/persistent/preservation/etc/machine-id".f.argument =
+      "uninitialized";
     kernel.sysctl = {
       # https://github.com/torvalds/linux/blob/218af599fa635b107cfe10acf3249c4dfe5e4123/net/ipv4/tcp_bbr.c#L55
       "net.core.default_qdisc" = "fq";
@@ -40,31 +42,30 @@
       files = [
         {
           file = "/etc/machine-id";
-          how = "symlink";
           inInitrd = true;
         }
       ];
     };
   };
 
-  services = {
-    # dbus-broker somehow breaks logind session creation
-    dbus.implementation = "dbus";
-    openssh = {
-      enable = true;
-      hostKeys = [
-        {
-          path = "/persistent/ssh/ssh_host_ed25519_key";
-          type = "ed25519";
-        }
-      ];
-      settings.PermitRootLogin = "yes";
-    };
+  services.openssh = {
+    enable = true;
+    hostKeys = [
+      {
+        path = "/persistent/ssh/ssh_host_ed25519_key";
+        type = "ed25519";
+      }
+    ];
+    settings.PermitRootLogin = "yes";
   };
 
-  systemd.network.networks.default = {
-    DHCP = "yes";
-    matchConfig.Type = "ether";
+  systemd = {
+    network.networks.default = {
+      DHCP = "yes";
+      matchConfig.Type = "ether";
+    };
+    # https://github.com/nix-community/preservation/pull/23
+    services.systemd-machine-id-commit.unitConfig.ConditionFirstBoot = true;
   };
 
   system.stateVersion = "24.11";
