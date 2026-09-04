@@ -40,6 +40,11 @@
         };
       };
 
+      checks.x86_64-linux = {
+        legacy-install = self.nixosConfigurations.legacy.config.system.build.installTest;
+        uefi-install = self.nixosConfigurations.uefi.config.system.build.installTest;
+      };
+
       packages.x86_64-linux = {
         legacy = self.nixosConfigurations.legacy.config.system.build.diskoImages;
         uefi = self.nixosConfigurations.uefi.config.system.build.diskoImages;

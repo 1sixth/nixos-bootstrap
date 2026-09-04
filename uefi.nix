@@ -11,77 +11,52 @@ in
     systemd-boot.enable = true;
   };
 
-  disko = {
-    devices = {
-      disk.main = {
-        imageSize = "2G";
-        device = "/dev/vda";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions = {
-            esp = {
-              size = "512M";
-              type = "EF00";
-              priority = 1;
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
-              };
+  disko.devices = {
+    disk.main = {
+      imageSize = "2G";
+      device = "/dev/vda";
+      type = "disk";
+      content = {
+        type = "gpt";
+        partitions = {
+          esp = {
+            size = "512M";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = [ "umask=077" ];
             };
-            root = {
-              size = "100%";
-              content = {
-                type = "btrfs";
-                extraArgs = [
-                  "--checksum"
-                  "xxhash"
-                ];
-                subvolumes = {
-                  "@nix" = {
-                    mountpoint = "/nix";
-                    mountOptions = mountOptions ++ [ "subvol=/@nix" ];
-                  };
-                  "@persistent" = {
-                    mountpoint = "/persistent";
-                    mountOptions = mountOptions ++ [ "subvol=/@persistent" ];
-                  };
+          };
+          root = {
+            size = "100%";
+            content = {
+              type = "btrfs";
+              extraArgs = [
+                "--checksum"
+                "xxhash"
+              ];
+              subvolumes = {
+                "@nix" = {
+                  inherit mountOptions;
+                  mountpoint = "/nix";
+                };
+                "@persistent" = {
+                  inherit mountOptions;
+                  mountpoint = "/persistent";
                 };
               };
             };
           };
         };
       };
-      nodev."/" = {
-        fsType = "tmpfs";
-        mountOptions = [ "mode=755" ];
-      };
     };
-    enableConfig = false;
+    nodev."/" = {
+      fsType = "tmpfs";
+      mountOptions = [ "mode=755" ];
+    };
   };
 
-  fileSystems = {
-    "/" = {
-      fsType = "tmpfs";
-      options = [ "mode=755" ];
-    };
-    "/boot" = {
-      device = "/dev/sda1";
-      fsType = "vfat";
-      options = [ "umask=0077" ];
-    };
-    "/nix" = {
-      device = "/dev/sda2";
-      fsType = "btrfs";
-      options = mountOptions ++ [ "subvol=/@nix" ];
-    };
-    "/persistent" = {
-      device = "/dev/sda2";
-      fsType = "btrfs";
-      neededForBoot = true;
-      options = mountOptions ++ [ "subvol=/@persistent" ];
-    };
-  };
+  fileSystems."/persistent".neededForBoot = true;
 }
