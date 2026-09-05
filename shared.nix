@@ -1,7 +1,10 @@
 { modulesPath, pkgs, ... }:
 
 {
-  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
+  imports = [
+    (modulesPath + "/profiles/minimal.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+  ];
 
   boot = {
     # https://github.com/nix-community/preservation/pull/23
@@ -15,11 +18,20 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
+  documentation.enable = false;
+
+  fonts.fontconfig.enable = false;
+
   networking = {
     firewall.enable = false;
     hostName = "bootstrap";
     useDHCP = false;
     useNetworkd = true;
+  };
+
+  nixpkgs.flake = {
+    setNixPath = false;
+    setFlakeRegistry = false;
   };
 
   preservation = {
@@ -63,7 +75,14 @@
     services.systemd-machine-id-commit.unitConfig.ConditionFirstBoot = true;
   };
 
-  system.stateVersion = "24.11";
+  system = {
+    stateVersion = "24.11";
+    tools = {
+      nixos-generate-config.enable = false;
+      nixos-option.enable = false;
+      nixos-rebuild.enable = false;
+    };
+  };
 
   time.timeZone = "Asia/Shanghai";
 
