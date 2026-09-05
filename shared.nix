@@ -1,4 +1,4 @@
-{ modulesPath, pkgs, ... }:
+{ modulesPath, ... }:
 
 {
   imports = [
@@ -15,7 +15,6 @@
       "net.core.default_qdisc" = "fq";
       "net.ipv4.tcp_congestion_control" = "bbr";
     };
-    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   documentation.enable = false;
