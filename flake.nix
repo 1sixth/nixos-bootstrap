@@ -19,6 +19,11 @@
     }:
 
     {
+      checks.x86_64-linux = {
+        legacy-install = self.nixosConfigurations.legacy.config.system.build.installTest;
+        uefi-install = self.nixosConfigurations.uefi.config.system.build.installTest;
+      };
+
       nixosConfigurations = {
         legacy = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -38,11 +43,6 @@
             ./shared.nix
           ];
         };
-      };
-
-      checks.x86_64-linux = {
-        legacy-install = self.nixosConfigurations.legacy.config.system.build.installTest;
-        uefi-install = self.nixosConfigurations.uefi.config.system.build.installTest;
       };
 
       packages.x86_64-linux =
