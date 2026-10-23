@@ -7,7 +7,7 @@
       url = "github:nix-community/disko/pull/1277/head";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    preservation.url = "github:nix-community/preservation";
+    preservation.url = "github:nix-community/preservation/pull/36/head";
   };
 
   outputs =
