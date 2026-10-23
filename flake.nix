@@ -6,7 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/disko/pull/1277/head";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     preservation.url = "github:nix-community/preservation";
   };
 
