@@ -17,6 +17,9 @@
     };
   };
 
+  # Use the configured root password instead of the VM test's empty password.
+  disko.tests.extraConfig.users.users.root.hashedPasswordFile = null;
+
   documentation.enable = false;
 
   fonts.fontconfig.enable = false;
