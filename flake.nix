@@ -4,7 +4,7 @@
   inputs = {
     disko = {
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:nix-community/disko/pull/1277/head";
+      url = "github:nix-community/disko";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     preservation.url = "github:nix-community/preservation";
